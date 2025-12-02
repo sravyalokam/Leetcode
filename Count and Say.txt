@@ -1,0 +1,35 @@
+class Solution {
+    
+public:
+    string RLE(string p) {
+    int size = p.size();
+    string res = "";
+    int i = 0;
+
+    while (i < size) {
+        char c = p[i];
+        int count = 1;
+        while (i + 1 < size && p[i + 1] == c) {
+            count++;
+            i++;
+        }
+        res += to_string(count);
+        res += c;
+        i++;
+    }
+
+    return res;
+}
+
+    
+    string countAndSay(int n) {
+        string res;
+        
+        string ans="1";
+        for(int i=1;i<n;i++){
+            res = RLE(ans);
+            ans=res;
+        }
+        return ans;
+    }
+};
