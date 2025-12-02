@@ -1,0 +1,23 @@
+/**
+ * @param {Array} arr
+ * @param {number} depth
+ * @return {Array}
+ */
+function recursive_flat(arr_copy, depth){
+    if (depth === 0) return arr_copy;
+
+    let result = [];
+
+    for (let elem of arr_copy) {
+        if (Array.isArray(elem)) {
+            result.push(...recursive_flat(elem, depth - 1));
+        } else {
+            result.push(elem);
+        }
+    }
+
+    return result;
+}
+var flat = function (arr, n) {
+   return recursive_flat(arr, n);
+};
