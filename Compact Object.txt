@@ -1,0 +1,34 @@
+/**
+ * @param {Object|Array} obj
+ * @return {Object|Array}
+ */
+function compactObject(obj) {
+    if (Array.isArray(obj)) {
+        const result = [];
+        for (let elem of obj) {
+            if (Array.isArray(elem) || (elem && typeof elem === "object")) {
+                const processed = compactObject(elem);
+                result.push(processed);
+            } else if (elem) {
+                result.push(elem);      
+            }
+           
+        }
+        return result;
+    } else if (obj && typeof obj === "object") {
+        
+        const result = {};
+        for (let key in obj) {
+            const value = obj[key];
+            if (Array.isArray(value) || (value && typeof value === "object")) {
+                const processed = compactObject(value);
+                result[key] = processed;
+            } else if (value) {
+                result[key] = value; 
+            }
+            
+        }
+        return result;
+    }
+    return obj; 
+}
