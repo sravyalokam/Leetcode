@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas= ["customer_schema","branch_schema","account_schema","transaction_schema","loan_schema","loan_payment_schema","employee_schema"]
+}
+
+model customers {
+  customer_id Int          @id @default(autoincrement())
+  name        String?
+  email       String?
+  phone       String?
+
+  // Relations
+  accounts accounts[]
+  loans    loans[]
+
+  @@map("customers_new")
+  @@schema("customer_schema")
+}
+
+model branches {
+  branch_id   Int        @id @default(autoincrement())
+  branch_name String?
+  city        String?
+  accounts    accounts[]
+
+  @@map("branches_new")
+  @@schema("branch_schema")
+}
+
+model accounts {
+  account_id   Int       @id @default(autoincrement())
+  customer_id  Int
+  branch_id    Int
+  account_type String?
+  balance      Decimal   @default(0.00)
+
+  // Relations
+  customer     customers @relation(fields: [customer_id], references: [customer_id])
+  branch       branches  @relation(fields: [branch_id], references: [branch_id])
+  transactions transactions[]
+
+  @@map("accounts_new")
+  @@schema("account_schema")
+}
+
+model transactions {
+  transaction_id   Int      @id @default(autoincrement())
+  account_id       Int
+  amount           Decimal?
+  transaction_type String?
+  transaction_date DateTime @default(now())
+
+  // Relation
+  account accounts @relation(fields: [account_id], references: [account_id])
+
+  @@map("transactions")
+  @@schema("transaction_schema")
+}
+
+model loans {
+  loan_id       Int       @id @default(autoincrement())
+  customer_id   Int
+  loan_type     String?
+  amount        Decimal?
+  interest_rate Decimal?
+
+  // Relations
+  customer customers      @relation(fields: [customer_id], references: [customer_id])
+  payments loan_payments[]
+
+  @@map("loans")
+  @@schema("loan_schema")
+}
+
+model loan_payments {
+  payment_id   Int      @id @default(autoincrement())
+  loan_id      Int
+  amount       Decimal?
+  payment_date DateTime @default(now())
+
+  // Relation
+  loan loans @relation(fields: [loan_id], references: [loan_id])
+
+  @@map("loan_payments")
+  @@schema("loan_payment_schema")
+}
+
+model employees2 {
+  id    Int    @id @default(autoincrement())
+  name1 String @unique
+
+  @@schema("employee_schema")
+}
+
