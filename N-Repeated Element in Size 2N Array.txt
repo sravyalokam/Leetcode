@@ -1,3 +1,4 @@
+// C++
 // PROBLEM OF THE DAY: N-Repeated Element in Size 2N Array
 
 // PROBLEM LINK: https://leetcode.com/problems/n-repeated-element-in-size-2n-array/?envType=daily-question&envId=2026-01-02
@@ -28,4 +29,37 @@ public:
         }
         return 0;
     }
+};
+
+
+
+// JS
+// PROBLEM OF THE DAY: N-Repeated Element in Size 2N Array
+
+// PROBLEM LINK: https://leetcode.com/problems/n-repeated-element-in-size-2n-array/?envType=daily-question&envId=2026-01-02
+
+// SOLUTION EXPLANATION:
+// 1. The problem gives an array of size 2N where exactly one element is repeated N times.
+// 2. I first sorted the nums array so that equal elements are placed next to each other.
+// 3. After sorting, the repeated element will always appear as two adjacent equal elements.
+// 4. I traversed the array once and returned the first element whose adjacent value is the same.
+
+// SPACE COMPLEXITY: O(N)
+
+// TIME COMPLEXITY: O(N log N)
+
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var repeatedNTimes = function(nums) {
+    let n = nums.length;
+    nums.sort((a,b) => a - b);
+    for(let i = 0; i < n; i++) {
+        if(nums[i] === nums[i+1]) {
+            return nums[i];
+        }
+    }
+    return 0;
 };
