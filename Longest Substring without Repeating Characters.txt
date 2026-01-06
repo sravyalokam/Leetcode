@@ -1,0 +1,38 @@
+// PROBLEM OF THE DAY: Longest Substring without Repeating Characters
+
+// APPROACH:
+    // 1. The goal is to find the length of the longest substring without repeating characters.
+    // 2. I used a sliding window technique with two pointers (i and j) starting from index 0.
+    // 3. A Map is used to store the frequency of characters in the current window.
+    // 4. I expand the window using pointer j and add characters to the map until a duplicate character is found.
+    // 5. When a duplicate is found, I shrink the window from the left using pointer i and decrement the frequency
+    //    of characters until the duplicate is removed from the window.
+    // 6. During expansion, I update the maximum length of the substring.
+    // 7. Finally, I return the maximum length.
+
+// TIME COMPLEXITY: O(N)
+
+// SPACE COMPLEXITY: O(N) 
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+    let n = s.length;
+    let max_length = 0;
+    let i = 0;
+    let j = 0;
+    let myMap = new Map();
+    while(j < n) {
+        if((myMap.get(s[j]) || 0) === 0) {
+            myMap.set(s[j], 1 );
+            max_length = Math.max(max_length, j - i + 1);
+            j++;
+        } else {
+            myMap.set(s[i], myMap.get(s[i]) - 1);
+            i++;
+        }
+    }
+    return max_length;
+};
