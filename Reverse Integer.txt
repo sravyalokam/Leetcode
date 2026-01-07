@@ -1,0 +1,30 @@
+// PROBLEM OF THE DAY: Reverse Integer
+
+// APPROACH:
+    // 1. We are given an integer x and need to reverse its digits. If the reversed number goes outside the signed 32-bit integer range [-2 ** 31, ( 2 ** 31) -1], we return zero.
+    // 2. Initialize rev = 0 to store the reversed number.
+    // 3. Loop while x is not equal to 0.
+    // 4. Extract the last digit of x using x % 10.
+    // 5. Append this digit to rev by multiplying rev by 10 and adding the digit.
+    // 6. Remove the last digit of x using Math.trunc(x / 10) to keep it an integer.
+    // 7. After the loop, check whether rev lies within the 32-bit signed integer range.
+    // 8. Return rev if valid; otherwise, return 0.
+
+// TIME COMPLEXITY: O(log N)
+
+// SPACE COMPLEXITY: O(1)
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var reverse = function(x) {
+    const INT_MIN = -(2 ** 31);
+    const INT_MAX =  (2 ** 31) - 1;
+    let rev = 0;
+    while(x) {
+        let remainder = x % 10;
+        rev = (rev * 10) + remainder;
+        x = Math.trunc(x / 10);
+    }
+    return (rev > INT_MAX || rev < INT_MIN ? 0 : rev);
+};
