@@ -1,0 +1,37 @@
+// PROBLEM OF THE DAY: Subsets
+
+// APPROACH:
+    // 1. The goal is to generate all possible subsets (the power set) of a given array.
+    // 2. Let n be the size of the input array. The total number of subsets is 2^n.
+    // 3. I use a bit manipulation approach where each number from 0 to (2^n - 1)
+    //    represents a unique subset.
+    // 4. For each number i in this range, I check its binary representation.
+    // 5. If the j-th bit of i is set (i & (1 << j)), it means the element at index j
+    //    in the array should be included in the current subset.
+    // 6. I iterate through all bits (from 0 to n-1) and build the subset accordingly.
+    // 7. Each generated subset is added to the result list.
+    // 8. Finally, I return the list containing all subsets.
+
+// TIME COMPLEXITY: O(N * 2^N)
+
+// SPACE COMPLEXITY: O(N * 2^N)
+
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function(nums) {
+    let n = nums.length;
+    let no_of_subsets = 1 << n;
+    let result = [];
+    for(let i = 0; i < no_of_subsets; i++) {
+        let subset = [];
+        for(let j = 0; j < n; j++) {
+            if(i & (1 << j)) {
+                subset.push(nums[j]);
+            }
+        }
+        result.push(subset);
+    }
+    return result;
+};
