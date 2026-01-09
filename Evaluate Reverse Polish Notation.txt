@@ -1,0 +1,47 @@
+// PROBLEM OF THE DAY: Evaluate Reverse Polish Notation
+
+// APPROACH:
+    // 1. Reverse Polish Notation (RPN) evaluates expressions using a stack,
+    //    where operators come after their operands.
+    // 2. Initialize an empty stack to store operands.
+    // 3. Traverse each token in the input array:
+    //    a) If the token is a number, convert it to an integer and push it onto the stack.
+    //    b) If the token is an operator (+, -, *, /):
+    //       - Pop the top two elements from the stack.
+    //       - The second popped element is the left operand,
+    //         and the first popped element is the right operand.
+    //       - Apply the operator to these two operands.
+    //       - For division, truncate the result toward zero.
+    //       - Push the result back onto the stack.
+    // 4. After processing all tokens, the stack will contain exactly one element,
+    //    which is the final result of the expression.
+    // 5. Return the value at the top of the stack.
+
+// TIME COMPLEXITY: O(N), where N is the number of tokens.
+    // Each token is processed exactly once, and stack operations are O(1).
+
+// SPACE COMPLEXITY: O(N) 
+
+/**
+ * @param {string[]} tokens
+ * @return {number}
+ */
+var evalRPN = function(tokens) {
+    let n = tokens.length;
+    let stack = [];
+    for(let i = 0; i < n; i++) {
+        if(tokens[i] === '+' || tokens[i] === '-' || tokens[i] === '*' || tokens[i] === '/') {
+            let num2 = stack.pop();
+            let num1 = stack.pop();
+            let result;
+            if(tokens[i] === '+') result = num1 + num2;
+            else if(tokens[i] === '-') result = num1 - num2;
+            else if(tokens[i] === '*') result = num1 * num2;
+            else result = Math.trunc(num1 / num2);
+            stack.push(result);
+        } else {
+            stack.push(Number(tokens[i]));
+        }
+    }
+    return stack.pop();
+};
