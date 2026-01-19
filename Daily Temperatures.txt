@@ -1,0 +1,53 @@
+// PROBLEM OF THE DAY: Daily Temperatures
+
+// APPROACH:
+    // 1. We are given an array where temperatures[i] represents the temperature on day i.
+    //    For each day, we need to find how many days we must wait until a warmer temperature.
+    //    If no warmer day exists, return 0 for that day.
+    //
+    // 2. We use a Monotonic Stack to solve this efficiently.
+    //    The stack will store indices of days, not the temperatures themselves.
+    //
+    // 3. Traverse the array from right to left:
+    //    a) While the stack is not empty and the temperature at the index on top of the stack
+    //       is less than or equal to the current day's temperature, pop from the stack.
+    //       (These days cannot be the next warmer day.)
+    //
+    //    b) After popping:
+    //       - If the stack is not empty, the top of the stack represents the next warmer day.
+    //       - The answer for the current day is (top index - current index).
+    //
+    //    c) Push the current index onto the stack.
+    //
+    // 4. Continue until all days are processed.
+    //
+    // 5. Return the result array.
+
+// TIME COMPLEXITY: O(N)
+    // Each index is pushed and popped from the stack at most once.
+
+// SPACE COMPLEXITY: O(N)
+    // Extra space is used for the stack and the result array.
+/**
+ * @param {number[]} temperatures
+ * @return {number[]}
+ */
+var dailyTemperatures = function(temperatures) {
+    const n = temperatures.length;
+    const result = new Array(n).fill(0);
+    const stack = []; 
+
+    for (let i = n - 1; i >= 0; i--) {
+        while (stack.length > 0 && temperatures[stack[stack.length - 1]] <= temperatures[i]) {
+            stack.pop();
+        }
+
+        if (stack.length > 0) {
+            result[i] = stack[stack.length - 1] - i;
+        }
+
+        stack.push(i);
+    }
+
+    return result;
+};
