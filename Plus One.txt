@@ -1,0 +1,47 @@
+// PROBLEM OF THE DAY: Plus One
+
+// APPROACH:
+    // 1. We are given an array `digits` where each element represents a digit of a non-negative integer.
+    //    The most significant digit is at the front of the array.
+    //    We need to add 1 to this number and return the resulting digits as an array.
+    //
+    // 2. We simulate the addition of 1 starting from the last digit (right to left),
+    //    similar to manual addition.
+    //
+    // 3. Traverse the array from right to left:
+    //    a) If the current digit is less than 9:
+    //       - Increment it by 1.
+    //       - No carry is generated, so we can immediately return the array.
+    //
+    //    b) If the current digit is 9:
+    //       - Set it to 0 (since 9 + 1 = 10).
+    //       - Carry is generated, so we continue to the next digit on the left.
+    //
+    // 4. If we exit the loop, it means all digits were 9
+    //    (e.g., [9], [9,9], [9,9,9]).
+    //    In this case, insert 1 at the front of the array.
+    //
+    // 5. Return the final digits array.
+
+// TIME COMPLEXITY: O(N)
+    // In the worst case, we traverse the entire array once.
+
+// SPACE COMPLEXITY: O(1)
+    // The operation is done in-place (excluding the output array itself).
+
+/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
+var plusOne = function(digits) {
+    let n = digits.length;
+      for (let i = n - 1; i >= 0; i--) {
+        if(digits[i] < 9) {
+            digits[i]++;
+            return digits;
+        }
+        digits[i] = 0;
+    }
+    digits.unshift(1);
+    return digits;
+};
