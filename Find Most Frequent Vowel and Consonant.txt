@@ -1,0 +1,44 @@
+// PROBLEM OF THE DAY: Find most frequent Vowel and Consonant 
+
+// APPROACH:
+    // 1. The goal is to calculate the sum of:
+    //    - the maximum frequency of any vowel
+    //    - the maximum frequency of any consonant in the string.
+    // 2. A Map is used to store the frequency of each character in the string.
+    // 3. Traverse the string once and update the frequency of each character in the map.
+    // 4. Traverse the map and:
+    //    - if the character is a vowel, update the maximum vowel frequency.
+    //    - otherwise, update the maximum consonant frequency.
+    // 5. Finally, return the sum of the maximum vowel frequency and maximum consonant frequency.
+
+// TIME COMPLEXITY: O(N).
+
+// SPACE COMPLEXITY: O(N)
+    // - Map stores frequency of each unique character.
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var maxFreqSum = function(s) {
+    let n = s.length;
+    let max_vowel_freq = 0;
+    let max_consonant_freq = 0;
+    let map = new Map();
+
+    for(let i = 0; i < n; i++) {
+        map.set(s[i], (map.get(s[i]) || 0) + 1);
+    }
+
+    for(let [key, value] of map) {
+        if(key === 'a' || key === 'e' || key === 'i' || key === 'o' || key === 'u') 
+        {
+            if(value > max_vowel_freq) {
+                max_vowel_freq = value;
+            }
+        } else if(value > max_consonant_freq) {
+            max_consonant_freq = value;
+        }
+    }
+    return max_vowel_freq + max_consonant_freq;
+};
