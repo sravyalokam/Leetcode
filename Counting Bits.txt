@@ -1,0 +1,33 @@
+// PROBLEM OF THE DAY: Counting Bits
+// APPROACH:
+// 1. The goal is to return an array where each index i contains the number of 1's 
+//    in the binary representation of i, for all numbers from 0 to n.
+// 2. For each number i from 0 to n:
+//    - Initialize a counter (cnt) to 0.
+//    - Check all 32 bit positions (0 to 31) using bit manipulation.
+//    - Use the bitwise AND operation (i & (1 << j)) to check if the j-th bit is set.
+//    - If the j-th bit is 1, increment the counter.
+// 3. After counting all set bits for number i, push the count to the result array.
+// 4. Return the result array containing counts for all numbers from 0 to n.
+
+// TIME COMPLEXITY: O(N * 32) = O(N)
+
+// SPACE COMPLEXITY: O(N)
+
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var countBits = function(n) {
+    let result = [];
+    for(let i = 0; i <= n; i++) {
+        let cnt = 0;
+        for(let j = 0; j < 32; j++) {
+            if(i & (1 << j)) {
+                cnt++;
+            }
+        }
+        result.push(cnt);
+    }
+    return result;
+};
