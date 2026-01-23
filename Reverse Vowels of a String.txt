@@ -1,0 +1,73 @@
+// PROBLEM OF THE DAY: Reverse Vowels of a String
+// EXPLANATION:
+// 1. The task is to reverse only the vowels in a given string `s` while keeping
+//    all other characters in their original positions.
+//    For example, if s = "hello", the vowels are 'e' and 'o', and reversing them
+//    gives "holle".
+//
+// 2. The approach uses a two-pointer technique:
+//    - Define a set `vowels` containing all lowercase and uppercase vowels 
+//      for quick lookup.
+//    - Convert the string `s` into an array `arr` because strings are immutable
+//      in JavaScript and we need to swap characters.
+//
+// 3. Initialize two pointers:
+//    - `i` starting at the beginning (0)
+//    - `j` starting at the end (arr.length - 1)
+//
+// 4. Loop until the two pointers meet:
+//    - Move `i` forward until it points to a vowel.
+//    - Move `j` backward until it points to a vowel.
+//    - Swap the vowels at positions `i` and `j`.
+//    - Move both pointers inward (`i++`, `j--`) and repeat.
+//
+// 5. After the loop, join the array back into a string and return it.
+//
+// EXAMPLE:
+//   Input:  "leetcode"
+//   Vowels: 'e', 'e', 'o', 'e'
+//   After reversing vowels: "leotcede"
+//
+// TIME COMPLEXITY: O(N)
+//   - Each character is checked at most once by either pointer, where N is the 
+//     length of the string.
+//
+// SPACE COMPLEXITY: O(N)
+//   - We use an array of characters to perform swaps (could be considered O(1) 
+//     if modifying in place were allowed in languages with mutable strings).
+
+
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseVowels = function (s) {
+  const vowels = new Set(['a','e','i','o','u','A','E','I','O','U']);
+  let arr = s.split('');
+ 
+  let i = 0;
+  let j = arr.length - 1;
+ 
+  while (i < j) {
+    // move i until it points to a vowel
+    while (i < j && !vowels.has(arr[i])) {
+      i++;
+    }
+ 
+    // move j until it points to a vowel
+    while (i < j && !vowels.has(arr[j])) {
+      j--;
+    }
+ 
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+ 
+    i++;
+    j--;
+  }
+ 
+  return arr.join('');
+};
+ 
+ 
