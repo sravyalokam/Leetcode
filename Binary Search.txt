@@ -1,0 +1,55 @@
+// PROBLEM OF THE DAY: Binary Search
+// EXPLANATION:
+//
+// 1. The task is to find the index of a given `target` value in a sorted array
+//    `nums`. If the target does not exist in the array, return -1.
+//    For example, if nums = [-1, 0, 3, 5, 9, 12] and target = 9, the output is 4.
+//    If target = 2, the output is -1.
+//
+// 2. The approach uses the Binary Search technique, which works only on
+//    sorted arrays and reduces the search space by half in each step.
+//
+// 3. Initialize two pointers:
+//    - `i` pointing to the start of the array (0)
+//    - `j` pointing to the end of the array (nums.length - 1)
+//
+// 4. Loop while the search range is valid (i <= j):
+//    - Calculate the middle index `mid` using Math.floor to avoid decimals.
+//    - If nums[mid] equals the target, return `mid` (target found).
+//    - If nums[mid] is greater than the target, discard the right half
+//      by moving `j` to mid - 1.
+//    - If nums[mid] is less than the target, discard the left half
+//      by moving `i` to mid + 1.
+//
+// 5. If the loop ends and the target is not found, return -1.
+//
+// EXAMPLE:
+//   Input:  nums = [-1, 0, 3, 5, 9, 12], target = 2
+//   Output: -1
+//
+// TIME COMPLEXITY: O(log N)
+//
+// SPACE COMPLEXITY: O(1)
+//  
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var search = function(nums, target) {
+    let n = nums.length;
+    let i = 0;
+    let j = n - 1;
+    while(i <= j) {
+        let mid = Math.floor((i + j) / 2);
+        if(nums[mid] === target) {
+            return mid;
+        } else if(nums[mid] > target) {
+            j = mid - 1;
+        } else {
+            i = mid + 1;
+        }
+    }
+    return -1;
+};
