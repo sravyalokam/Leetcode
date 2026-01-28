@@ -1,0 +1,55 @@
+// PROBLEM OF THE DAY: Contains Duplicate II
+// EXPLANATION:
+//
+// 1. The task is to determine whether a given array `nums` contains any duplicate
+//    elements such that the indices of the duplicates are at most `k` apart.
+//    For example, if nums = [1,2,3,1] and k = 3, the output is true (1 appears at
+//    index 0 and 3, distance = 3 ≤ k). If nums = [1,0,1,1] and k = 1, the output
+//    is true (1 appears at index 2 and 3, distance = 1 ≤ k).  
+//
+// 2. The approach uses a Map to store the last seen index of each number, allowing
+//    us to quickly check if a duplicate exists within the distance `k`.
+//
+// 3. Initialize a Map to store numbers as keys and their latest index as values.
+//    Also initialize two pointers:
+//    - `i` pointing to the start of the current window (optional for tracking).
+//    - `j` pointing to the current index in the array.
+//
+// 4. Loop while `j < nums.length`:
+//    - If nums[j] is already in the Map:
+//        - Get its previous index `prevIndex`.
+//        - If j - prevIndex <= k, a nearby duplicate exists → return true.
+//        - Otherwise, move `i` to prevIndex + 1 to update the start of the window.
+//    - Update the Map with the current index: map.set(nums[j], j).
+//    - Increment `j` to move to the next element.
+//
+// 5. If the loop ends and no nearby duplicates are found, return false.
+//
+// EXAMPLE:
+//   Input:  nums = [1,2,3,1], k = 3
+//   Output: true
+//   Explanation: 1 appears at index 0 and 3, distance = 3 ≤ k.
+//
+// TIME COMPLEXITY: O(n)
+//
+// SPACE COMPLEXITY: O(n)
+
+var containsNearbyDuplicate = function(nums, k) {
+    let map = new Map(); 
+
+    let i = 0, j = 0;
+    while (j < nums.length) {
+        if (map.has(nums[j])) {
+            let prevIndex = map.get(nums[j]);
+            if (j - prevIndex <= k) {
+                return true;
+            }
+            i = prevIndex + 1;
+        }
+        map.set(nums[j], j);
+
+        j++;
+    }
+
+    return false;
+};
