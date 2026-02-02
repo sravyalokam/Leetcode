@@ -1,0 +1,47 @@
+// PROBLEM OF THE DAY: Palindrome Number
+// APPROACH:
+//  
+//  1. The goal is to determine whether a given integer `x` is a palindrome.
+//      A palindrome reads the same forward and backward.
+//  
+//   2. First, convert the integer `x` into a string so that each digit
+//      (and possible '-' sign) can be accessed easily.
+//  
+//   3. Initialize:
+//      - `rev` as an empty string to store the reversed value
+//      - `stack` as an empty array to use stack behavior (LIFO)
+//  
+//   4. Traverse through the string representation of the number:
+//      - Push each character of `str` into the stack.
+//  
+//   5. Reverse the string using the stack:
+//      - Pop characters one by one from the stack
+//      - Append each popped character to `rev`
+//      - This reverses the original string
+//  
+//   6. Compare the original string `str` with the reversed string `rev`:
+//      - If they are equal, the number is a palindrome → return true
+//      - Otherwise, return false
+//  
+//   TIME COMPLEXITY: O(N)
+//     - N is the number of digits in `x`
+//  
+//   SPACE COMPLEXITY: O(N)
+//     - Extra space is used for the stack and reversed string
+// 
+/**
+ * @param {number} x
+ * @return {boolean}
+ */
+var isPalindrome = function(x) {
+    let str = String(x);
+    let rev = '';
+    let stack = [];
+    for(let i = 0; i < str.length; i++) {
+        stack.push(str[i]);
+    }
+    while (stack.length) {
+        rev += stack.pop(); 
+    }
+    return str ===  rev;
+};
