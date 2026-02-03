@@ -1,0 +1,62 @@
+// PROBLEM OF THE DAY: Sqrt(x)
+// EXPLANATION:
+//
+// 1. The task is to compute and return the integer square root of a non-negative
+//    integer `x`. The integer square root is defined as the largest integer `y`
+//    such that y * y ≤ x. Decimal values are not allowed.
+//    For example, if x = 8, the output is 2 (since √8 ≈ 2.82, and we return the floor).
+//
+// 2. The approach uses **Binary Search** to efficiently find the integer square
+//    root by narrowing down the possible range of values.
+//
+// 3. Handle the base case:
+//    - If x < 2, return x directly because √0 = 0 and √1 = 1.
+//
+// 4. Initialize the binary search range:
+//    - `left` = 1 (smallest possible square root)
+//    - `right` = x / 2 (for x ≥ 2, the square root cannot exceed x / 2)
+//    - `ans` = 0 to store the best valid square root found so far.
+//
+// 5. Loop while `left <= right`:
+//    - Calculate `mid` as the middle of the current range.
+//    - Compute `sq = mid * mid`.
+//    - If `sq === x`, an exact square root is found → return `mid`.
+//    - If `sq < x`, `mid` is a valid candidate:
+//        - Store it in `ans`.
+//        - Move `left` to `mid + 1` to search for a larger possible root.
+//    - If `sq > x`, `mid` is too large:
+//        - Move `right` to `mid - 1` to reduce the search space.
+//
+// 6. If the loop ends without finding an exact square root, return `ans`,
+//    which holds the largest integer such that ans * ans ≤ x.
+//
+//
+// TIME COMPLEXITY: O(log x)
+//
+// SPACE COMPLEXITY: O(1)
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var mySqrt = function(x) {
+    if (x < 2) return x;
+
+    let left = 1, right = Math.floor(x / 2);
+    let ans = 0;
+
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+        const sq = mid * mid;
+
+        if (sq === x) {
+            return mid;
+        } else if (sq < x) {
+            ans = mid;        
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return ans;
+};
