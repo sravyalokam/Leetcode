@@ -1,0 +1,41 @@
+// PROBLEM: Remove Adjacent Duplicates from a String
+//
+// 1. We are given a string `s`.
+//    If two same characters are next to each other, we remove both.
+//    This keeps happening until no adjacent duplicates are left.
+//
+// 2. We use a stack to solve this problem.
+//
+// 3. Create an empty stack.
+//
+// 4. Loop through each character in the string:
+//    - If the stack is not empty AND the top of the stack is the same
+//      as the current character, remove the top element (pop).
+//    - Otherwise, add the current character to the stack (push).
+//
+// 5. After the loop, the stack contains the final characters
+//    without adjacent duplicates.
+//
+// 6. Convert the stack into a string and return it.
+//
+// TIME COMPLEXITY: O(N)
+// SPACE COMPLEXITY: O(N)
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var removeDuplicates = function(s) {
+    let stack = [];
+    for(let i = 0; i < s.length; i++) {
+        if(stack.length !== 0 && stack[stack.length - 1] === s[i]) {
+            stack.pop();
+        } else {
+            stack.push(s[i]);
+        }
+    }
+    let result = '';
+    for(let i = 0; i < stack.length; i++) {
+        result += stack[i];
+    }
+    return result;
+};
