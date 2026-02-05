@@ -1,0 +1,40 @@
+// PROBLEM OF THE DAY: Sort Colors
+// EXPLANATION:
+//
+// 1. The task is to sort an array `nums` that contains integers representing colors
+//    (usually 0, 1, and 2) in ascending order.
+//
+// 2. The approach here uses a simple nested loop comparison (Bubble Sort-like) technique
+//    to sort the array in-place. It compares each element with all elements that come
+//    after it and swaps them if they are in the wrong order.
+//
+// 3. Initialize the size of the array `n = nums.size()`.
+//
+// 4. Loop through the array using two loops:
+//    - Outer loop `i` goes from 0 to n-1 (each element of the array).
+//    - Inner loop `j` goes from i+1 to n-1 (all elements after i).
+//    - Compare nums[i] with nums[j]:
+//        - If nums[j] < nums[i], swap nums[i] and nums[j].
+//
+// 5. After both loops complete, the array is sorted in ascending order.
+//
+//
+// TIME COMPLEXITY: O(N^2)
+//
+// SPACE COMPLEXITY: O(1)
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var sortColors = function(nums) {
+    let n = nums.length;
+       for(let i = 0; i < n; i++) {
+        for(let j = i+1; j < n; j++) {
+            if(nums[j] < nums[i]){
+                let temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+            }
+        }
+    }
+};
