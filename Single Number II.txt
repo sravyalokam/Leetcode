@@ -1,0 +1,42 @@
+// PROBLEM OF THE DAY: Single Number II
+// EXPLANATION:
+//
+// 1. The task is to find the element in the array `nums` that appears exactly once, while every other  element appears more than once.
+//
+// 2. The approach uses a Hash Map (`Map`) to count the frequency of each number.
+//
+// 3. First, initialize:
+//    - `n` as the length of the array.
+//    - `map` as a new Map to store number frequency.
+//
+// 4. Traverse the array from index 0 to n-1:
+//    - For each number `nums[i]`:
+//        - If it already exists in the map, increment its count.
+//        - Otherwise, add it to the map with count = 1.
+//
+// 5. After counting all elements, iterate through the map:
+//    - For each `[key, value]` pair:
+//        - If `value === 1`, return `key` because it appears only once.
+//
+// 6. If no such element is found (edge case), return -1.
+//
+// TIME COMPLEXITY: O(N)
+//
+// SPACE COMPLEXITY: O(N)
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+   var singleNumber = function(nums) {
+    let n = nums.length;
+    let map = new Map();
+    for(let i = 0; i < n; i++) {
+        map.set(nums[i], (map.get(nums[i]) || 0) + 1);
+    }
+    for(let [key, value] of map) {
+        if(value === 1) {
+            return key;
+        }
+    }
+    return -1;
+};
