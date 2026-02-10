@@ -1,0 +1,59 @@
+// PROBLEM OF THE DAY: Partition Array According to Given Pivot
+// EXPLANATION:
+//
+// 1. The task is to rearrange the array `nums` based on a given number `pivot`.
+//    - All numbers smaller than `pivot` come first
+//    - All numbers equal to `pivot` come next
+//    - All numbers greater than `pivot` come last
+//    The order inside each group must stay the same.
+//
+// 2. We use three helpers:
+//    - `less_than_pivot`: stores numbers smaller than pivot
+//    - `greater_than_pivot`: stores numbers greater than pivot
+//    - `count_pivot`: counts how many times pivot appears
+//
+// 3. Traverse the array once and divide elements into groups.
+//
+// 4. Rebuild the original array in this order:
+//    - first all elements < pivot
+//    - then pivot values
+//    - finally elements > pivot
+//
+// TIME COMPLEXITY: O(N)
+// SPACE COMPLEXITY: O(N)
+/**
+ * @param {number[]} nums
+ * @param {number} pivot
+ * @return {number[]}
+ */
+var pivotArray = function(nums, pivot) {
+    let n = nums.length;
+    let less_than_pivot = [];
+    let greater_than_pivot = [];
+    let count_pivot = 0;
+    for(let i = 0; i < n; i++) {
+        if(nums[i] < pivot) {
+            less_than_pivot.push(nums[i]);
+        } else if(nums[i] > pivot) {
+            greater_than_pivot.push(nums[i]);
+        } else {
+            count_pivot ++;
+        }
+    }
+    let i;
+    for(i = 0; i < less_than_pivot.length; i++) {
+        nums[i] = less_than_pivot[i];
+    }
+    let j;
+    for(j = i; j < n && count_pivot!= 0; j++) {
+        nums[j] = pivot;
+        count_pivot --;
+    }
+    let k;
+    let m = 0;
+    for(k = j; k < n && m < greater_than_pivot.length; k++) {
+        nums[k] = greater_than_pivot[m];
+        m++;
+    }
+    return nums;
+};
