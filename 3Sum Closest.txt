@@ -1,0 +1,50 @@
+// PROBLEM OF THE DAY: 3Sum Closest
+
+// PROBLEM LINK: 
+
+// SOLUTION EXPLANATION:
+// 1. First, sort the array in ascending order. Sorting helps us apply the two-pointer technique efficiently.
+// 2. Initialize closestSum with the sum of the first three elements.
+// 3. Iterate through the array using index i from 0 to n - 2.
+// 4. For each i, use two pointers:
+//      - j = i + 1 (next element)
+//      - k = n - 1 (last element)
+// 5. Calculate the current sum = nums[i] + nums[j] + nums[k].
+// 6. If the absolute difference between sum and target is smaller than the 
+//    absolute difference between closestSum and target, update closestSum.
+// 7. If sum < target, move j forward to increase the sum.
+//    If sum > target, move k backward to decrease the sum.
+//    If sum === target, return sum immediately because it's the best possible answer.
+// 8. After checking all possible triplets, return `closestSum`.
+
+// SPACE COMPLEXITY: O(1)
+
+// TIME COMPLEXITY: O(N^2)
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var threeSumClosest = function(nums, target) {
+    let n = nums.length;
+    nums.sort((a, b) => a - b);
+    let closestSum = nums[0] + nums[1] + nums[2];
+    for(let i = 0; i < n - 2; i++) {
+        let j = i + 1;
+        let k = n - 1;
+        while (j < k) {
+            let sum = nums[i] + nums[j] + nums[k];
+            if (Math.abs(sum - target) < Math.abs(closestSum - target)) {
+                    closestSum = sum
+                }
+            if (sum < target) {
+                j++;
+            } else if (sum > target) {
+                k--;
+            } else {
+                return sum; 
+            }
+        }
+    }
+    return closestSum;
+};
