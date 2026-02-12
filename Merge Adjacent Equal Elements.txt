@@ -1,0 +1,45 @@
+// PROBLEM: Merge Adjacent Equal Numbers
+// PROBLEM LINK: https://leetcode.com/problems/merge-adjacent-equal-elements/
+//
+// 1. We are given an array `nums`. If two adjacent numbers are equal, we merge them into one number by adding them.
+//
+// 2. Create an empty stack.
+//
+// 3. For each number in nums:
+//    - If stack is empty OR top of stack not equals to current number, push the number into stack.
+//    - If top of stack = current number:
+//        • Pop the top.
+//        • Add it with current number.
+//        • Keep merging if the new value again matches the top.
+//        • Push the final merged value.
+//
+// 5. After processing all numbers, the stack contains the final result.
+//
+// TIME COMPLEXITY: O(N)
+// SPACE COMPLEXITY: O(N)
+
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var mergeAdjacent = function(nums) {
+    let n = nums.length;
+    let stack = [];
+    let i = 0;
+    while(i < n) {
+        if((stack.length === 0) || (stack.length > 0 && stack[stack.length - 1] !== nums[i])) {
+            stack.push(nums[i]);
+        }
+        else {
+            let double = nums[i] +stack.pop();
+            while(stack.length !== 0 && stack[stack.length - 1] === double) {
+                let num = stack.pop();
+                double = num * 2;
+            }
+            stack.push(double);
+        }
+        i++;
+    }
+    
+    return stack;
+};
