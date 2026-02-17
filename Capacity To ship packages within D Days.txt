@@ -1,0 +1,58 @@
+// PROBLEM OF THE DAY: Capacity to Ship Packages within D Days
+
+// PROBLEM LINK: https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+
+// SOLUTION EXPLANATION:
+// 1. The minimum possible capacity is the maximum weight in the array.
+// 2. The maximum possible capacity is the sum of all weights.
+// 3. We apply binary search between these two limits.
+// 4. For each candidate capacity:
+    // We calculate the number of days needed using a greedy approach.
+// 5. If more days are required than allowed, we increase the capacity.
+// 6. Otherwise, we try to reduce the capacity.
+// 7. When the search ends, we return the minimum valid capacity.
+
+// SPACE COMPLEXITY: O(1)
+
+// TIME COMPLEXITY: O(N logN)
+
+/**
+ * @param {number[]} weights
+ * @param {number} days
+ * @return {number}
+ */
+var countDays = function(weights, m) {
+   let days = 1;
+   let current_load = 0;
+
+    for(let i = 0; i < weights.length; i++) {
+        if(current_load + weights[i] <= m) {
+            current_load += weights[i];
+        } else {
+            days++;
+            current_load = weights[i];
+        }
+    }
+    return days; 
+}
+var shipWithinDays = function(weights, days) {
+    let n = weights.length;
+    let max_capacity = 0;
+    let total_sum = 0;
+    for(let i = 0; i < n; i++) {
+        max_capacity = Math.max(max_capacity, weights[i]);
+        total_sum += weights[i];
+    }
+
+    let i = max_capacity;
+    let j = total_sum;
+    while(i < j) {
+        let mid = Math.floor((i + j) / 2);
+        if(countDays(weights, mid) > days) {
+            i = mid + 1;
+        } else {
+            j = mid;
+        }
+    }
+    return i;
+};
