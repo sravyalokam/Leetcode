@@ -1,0 +1,41 @@
+// PROBLEM OF THE DAY: Binary Number with Alternating Bits
+
+// PROBLEM LINK: https://leetcode.com/problems/binary-number-with-alternating-bits/?envType=daily-question&envId=2026-02-18
+
+// SOLUTION EXPLANATION:
+// 1. The problem states that we are given a positive integer n.
+// 2. We need to check whether its binary representation contains alternating bits.
+//    That means no two adjacent bits should be the same.
+//
+// 3. To solve this, we use bit manipulation.
+// 4. In each iteration:
+//      - Extract the last bit using (n & 1)
+//      - Extract the next bit using ((n >> 1) & 1)
+//      - Compare both bits
+// 5. If both bits are equal at any point, it means they are not alternating,
+//    so we return false.
+// 6. Then we right shift n by 1 (n = n >> 1) to move to the next pair of bits.
+// 7. If we finish the loop without finding equal adjacent bits,
+//    then the number has alternating bits → return true.
+
+// SPACE COMPLEXITY: O(1)
+
+// TIME COMPLEXITY: O(log n)
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var hasAlternatingBits = function(n) {
+    let n_bits = 0;
+    if(n === 0) n_bits = 1;
+    else n_bits = n.toString(2).length;
+    while(n > 0) {
+        let last_bit = n & 1;
+        let next = (n >> 1) & 1;
+        if(last_bit === next) {
+            return false;
+        }
+        n = n >> 1;
+    }
+    return true;
+};
