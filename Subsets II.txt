@@ -1,0 +1,42 @@
+// PROBLEM OF THE DAY: Subsets II
+
+// PROBLEM LINK: https://leetcode.com/problems/subsets-ii/
+
+// APPROACH:
+    // 1. The goal is to generate all possible subsets (power set).
+    // 2. If n is the size of the array, total subsets = 2^n.
+    // 3. I iterate from 0 to (2^n - 1).
+    // 4. Each number represents a subset using bit masking.
+    // 5. For each bit position j:
+        //If (i & (1 << j)) is true then include nums[j].
+    // 6. Each subset is sorted to handle duplicate ordering.
+    // 7. All subsets are stored in result.
+    // 8. Since input may contain duplicates, I remove duplicate subsets using:
+        // Map
+        // JSON.stringify() as key
+    // 9. Return the unique subsets.
+
+// TIME COMPLEXITY: O(N log N * 2^N)
+
+// SPACE COMPLEXITY: O(N * 2^N)
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsetsWithDup = function(nums) {
+    let n = nums.length;
+        let no_of_subsets = 1 << n;
+        let result = [];
+        for(let i = 0; i < no_of_subsets; i++) {
+            let subset = [];
+            for(let j = 0; j < n; j++) {
+                if(i & (1 << j)) {
+                    subset.push(nums[j]);
+                }
+            }
+            subset.sort((a,b) => a - b );
+            result.push(subset);
+        }
+        const removeDuplicates = arr =>[...new Map(arr.map(row => [JSON.stringify(row), row])).values()];
+        return removeDuplicates(result);
+};
