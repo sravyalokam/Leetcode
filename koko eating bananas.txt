@@ -1,0 +1,47 @@
+// PROBLEM OF THE DAY: Koko Eating Bananas
+
+// PROBLEM LINK: https://leetcode.com/problems/koko-eating-bananas/
+
+// SOLUTION EXPLANATION:
+// 1. The minimum possible capacity is 1 for koko to each in an hour.
+// 2. The maximum possible capacity is max pile in the piles array in an hour.
+// 3. We apply binary search between these two limits.
+// 4. For each capacity:
+    // We calculate the number of hours needed.
+// 5. If more hours are required than allowed, we increase the capacity.
+// 6. Otherwise, we try to reduce the capacity.
+// 7. When the search ends, we return the minimum valid capacity.
+
+// SPACE COMPLEXITY: O(1)
+
+// TIME COMPLEXITY: O(N logN)
+/**
+ * @param {number[]} piles
+ * @param {number} h
+ * @return {number}
+ */
+var getHours = function(piles, mid) {
+    let hours = 0;
+    for(let i = 0; i < piles.length; i++) {
+        hours += Math.ceil(piles[i] / mid);
+    }
+    return hours;
+}
+var minEatingSpeed = function(piles, h) {
+    let n = piles.length;
+    let max_bananas = 0;
+    for(let i = 0; i < n; i++) {
+        max_bananas = Math.max(max_bananas, piles[i]);
+    }
+    let i = 1;
+    let j = max_bananas;
+    while(i < j) {
+        let mid = Math.floor((i + j) / 2);
+        if(getHours(piles, mid) > h) {
+            i = mid + 1;
+        } else {
+            j = mid;
+        }
+    }
+    return i;
+};
