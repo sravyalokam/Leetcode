@@ -1,0 +1,55 @@
+// PROBLEM OF THE DAY: Prime Number of Set Bits in Binary Representation
+
+// PROBLEM LINK: https://leetcode.com/problems/prime-number-of-set-bits-in-binary-representation/?envType=daily-question&envId=2026-02-21
+
+// SOLUTION EXPLANATION:
+// 1. This solution counts numbers between left and right whose number of set bits (1s in binary form) is prime.
+// 2. For each number, we count how many bits are set using bitwise operations.
+// 3. Then we check if that count is a prime number using the isPrime function.
+// 4. If it is prime, we increase the result counter.
+
+// SPACE COMPLEXITY: O(1)
+
+// TIME COMPLEXITY: O(N)
+/**
+ * @param {number} left
+ * @param {number} right
+ * @return {number}
+ */
+function isPrime(num) {
+  if (num <= 1) {
+    return false;
+  }
+  
+  if (num === 2) {
+    return true;
+  }
+  
+  if (num % 2 === 0) {
+    return false;
+  }
+
+  const limit = Math.floor(Math.sqrt(num));
+  for (let i = 3; i <= limit; i += 2) {
+    if (num % i === 0) {
+      return false; 
+    }
+  }
+
+  return true;
+}
+var countPrimeSetBits = function(left, right) {
+    let count_prime_set_bits = 0;
+    for(let i = left; i <= right; i++) {
+        let count = 0;
+        for(let k = 0; k < 32; k++) {
+            if(i & (1 << k)) {
+                count ++;
+            }
+        }
+        if(isPrime(count)) {
+            count_prime_set_bits ++;
+        }
+    }
+    return count_prime_set_bits;
+};
