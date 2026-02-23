@@ -1,0 +1,50 @@
+// PROBLEM OF THE DAY: Merge Two Sorted Lists
+
+// PROBLEM LINK: https://leetcode.com/problems/merge-two-sorted-lists/
+
+// SOLUTION EXPLANATION:
+// 1. We create a dummy node (temporary starting node) to easily build the result linked list.
+// 2. We use a pointer result (current pointer) that always points to the last node of the merged list.
+// 3. We maintain two pointers:
+    // l1 pointing to list1
+    // l2 pointing to list2
+// 4. We traverse both lists at the same time while both are not null.
+// 5. We compare the values of l1 and l2:
+    // If l1.val <= l2.val, we attach l1 to the merged list and move l1 forward.
+    // Otherwise, we attach l2 to the merged list and move l2 forward.
+// 6. After attaching a node, we move result forward because the merged list has grown.
+// 7. When one list becomes empty, we attach the remaining part of the other list directly to the merged list. No more comparisons are needed.
+// 8. Finally, we return dummy.next because the dummy node was only a helper and is not part of the actual answer.
+
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} list1
+ * @param {ListNode} list2
+ * @return {ListNode}
+ */
+var mergeTwoLists = function(list1, list2) {
+    let l = new ListNode(-1);
+    let result = l;
+    let l1 = list1;
+    let l2 = list2;
+    while(l1 && l2) {
+        if(l1.val <= l2.val) {
+            result.next = l1;
+            l1 = l1.next;
+        } else if(l2.val < l1.val) {
+            result.next = l2;
+            l2 = l2.next;
+        } 
+            result = result.next;
+    }
+        if(l1) result.next = l1;
+        if(l2) result.next = l2;
+        return l.next;
+};
