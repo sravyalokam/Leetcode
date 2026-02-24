@@ -1,0 +1,75 @@
+// PROBLEM OF THE DAY: Binary Tree Preorder Traversal
+
+// PROBLEM LINK: https://leetcode.com/problems/binary-tree-preorder-traversal/
+
+// SOLUTION EXPLANATION(Iterative Approach):
+// 1. The problem asks us to traverse a binary tree in preorder, which follows the order: Root → Left → Right.
+// 2. First, we handle the base case. If the root is null, we return an empty array because there are no nodes to traverse.
+// 3. To perform traversal iteratively, we use a stack.
+// 4. The stack helps us keep track of nodes whose subtrees still need to be visited.
+// 5. Initially, we push the root node into the stack.
+// 6. We run a loop while the stack is not empty.
+// 7. In each iteration:
+    // We pop the top node from the stack.
+    // We add its value to the result array.
+// 8. After visiting the node:
+        // If the node has a right child, we push it into the stack.
+        // If the node has a left child, we push it into the stack.
+// 9. We push right first and left second because the stack is LIFO.
+// 10 This ensures the left child is processed before the right child, maintaining preorder.
+// 11. The loop continues until all nodes are processed, and finally we return the result array.
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var preorderTraversal = function(root) {
+    let list = root;
+    let result = [];
+    if(list === null) return result;
+    let stack = [];
+    stack.push(list);
+    while(stack.length) {
+        let elem = stack.pop();
+        result.push(elem.val);
+        if(elem.right) stack.push(elem.right);
+        if(elem.left) stack.push(elem.left);
+    }
+    
+    return result;
+};
+
+
+// SOLUTION EXPLANATION (Recursive Approach):
+// 1. Preorder traversal follows the order: Root → Left → Right.
+// 2. We create a helper function `traversal(root, result)`.
+// 3. Base case: if the current node is null, we simply return.
+// 4. First, we add the current node value to the result array. (Root step)
+// 5. Then we recursively call the function for the left child to traverse the left subtree.
+// 6. After finishing the left subtree, we recursively call the function for the right child.
+// 7. Each recursive call treats the child node as a new root and repeats the same steps.
+// 8. Recursion automatically stops when it reaches null nodes.
+// 9. After all recursive calls complete, the result array contains the preorder traversal.
+
+
+
+// var traversal = function(root, result) {
+//     if(root === null) return result;
+//         result.push(root.val);
+//         if(root.left) traversal(root.left, result);
+//         if(root.right) traversal(root.right, result);
+    
+//     return result;
+// }
+// var preorderTraversal = function(root) {
+//     let result = [];
+//     return traversal(root, result);
+// };
