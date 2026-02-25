@@ -1,0 +1,40 @@
+// PROBLEM OF THE DAY: Find the Score Difference in a Game
+
+// PROBLEM LINK: https://leetcode.com/problems/find-the-score-difference-in-a-game/
+
+// SOLUTION EXPLANATION:
+// 1. We have two players playing a game and an array of numbers.
+// 2. Each number is taken one by one from left to right, and whoever’s turn it is adds that number to their score.
+// 3. We create two variables player1_score and player2_score and initialize them to 0.
+// 4. We start with Player1’s turn (player1 = true, player2 = false).
+// 5. For every number in the array, we check a rule:
+    // If the number is odd OR the position is a multiple of 6, we swap the turn.
+// 6. After deciding the turn, the active player adds the current number to their score.
+// 7. After processing all numbers, we return player1_score - player2_score, which represents the score difference between the two players.
+
+// Time Complexity: O(n) we scan the array once
+// Space Complexity: O(1) only a few variables are used
+
+/**
+* @param {number[]} nums
+* @return {number}
+*/
+var scoreDifference = function(nums) {
+     let n = nums.length;
+        let player1_score = 0;
+        let player2_score = 0;
+        let player1 = true;
+        let player2 = false;
+        for(let i = 0; i < n; i++) {
+            if((nums[i] % 2 !== 0) && ((i + 1) % 6 === 0)) {
+               player1 = player1;
+               player2 = player2;
+            } else if((nums[i] % 2 !==0) || ((i + 1) % 6 === 0)) {
+                player1 = !player1;
+                player2 = !player2;
+            }
+            if(player1) player1_score += nums[i];
+            if(player2) player2_score += nums[i];
+        }
+    return player1_score - player2_score;
+};
