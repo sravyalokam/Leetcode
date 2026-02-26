@@ -1,0 +1,45 @@
+// PROBLEM OF THE DAY: Find Peak Element
+
+// PROBLEM LINK: https://leetcode.com/problems/find-peak-element/
+
+// SOLUTION EXPLANATION:
+// 1. A peak element is an element that is strictly greater than its neighbors. For boundary elements, we only compare with the available neighbor.
+// 2. First, check small edge cases:
+//      - If the array has only one element, that element is automatically a peak, so return index 0.
+// 3. Traverse the array from index 0 to n-1 using a loop.
+// 4. Handle the first element (i = 0):
+//      It has only one neighbor (right side).
+//      If nums[0] > nums[1], then index 0 is a peak.
+// 5. Handle the last element (i = n-1):
+//      It has only one neighbor (left side).
+//      If nums[n-1] > nums[n-2], then index n-1 is a peak.
+// 6. Handle all middle elements:
+//      For any index i (1 to n-2),
+//      If nums[i] is greater than both neighbors:
+//          nums[i-1] < nums[i] > nums[i+1]
+//      then it is a peak element. Return i immediately.
+
+// SPACE COMPLEXITY: O(1)
+
+// TIME COMPLEXITY: O(N)
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findPeakElement = function(nums) {
+    let n = nums.length;
+    if(n <= 1) return 0;
+    if(n < 2) { return 1;}
+    for(let i = 0; i < n; i++) {
+        if(i === 0) {
+            if(nums[i + 1] < nums[i]) return i;
+        } else if(i === n - 1) {
+            if(nums[i - 1] < nums[i]) return i;
+        } else {
+            if(nums[i - 1] < nums[i] && nums[i] > nums[i + 1]) {
+                return i
+            }
+        }
+    }
+    return 0;
+};
