@@ -1,0 +1,80 @@
+// PROBLEM OF THE DAY: Robot Bounded In Circle
+
+// PROBLEM LINK: https://leetcode.com/problems/robot-bounded-in-circle/
+
+// SOLUTION EXPLANATION:
+// 1. The robot starts at origin (0, 0) and initially faces north.
+// 2. We maintain two things:
+//      - position → [x, y] coordinates
+//      - direction → north / south / east / west
+//
+// 3. Traverse every character in the instruction string:
+//      'G' → move one step forward in the current direction
+//      'L' → turn 90° left (change direction only)
+//      'R' → turn 90° right (change direction only)
+//
+// 4. Movement logic (G command):
+//      north → y++
+//      south → y--
+//      east  → x++
+//      west  → x--
+//
+// 5. Turning logic:
+//      Left turn cycle:
+//          north → west → south → east → north
+//
+//      Right turn cycle:
+//          north → east → south → west → north
+//
+// 6. After executing the instructions once, we check two conditions:
+//
+//      Case 1:
+//      If robot returns to origin (0,0)
+//      → It is definitely moving in a circle.
+//
+//      Case 2:
+//      If robot does NOT face north anymore
+//      → In next repetition of instructions it will rotate and
+//        eventually come back to origin.
+//      → So it is also bounded in a circle.
+//
+//      Case 3:
+//      If robot is NOT at origin AND still facing north
+//      → It will keep moving farther away every cycle
+//      → So it is NOT bounded.
+//
+// 7. Final condition:
+//      return (position[0] === 0 && position[1] === 0) || direction !== "north";
+//
+// SPACE COMPLEXITY: O(1)
+//
+// TIME COMPLEXITY: O(N)
+
+/**
+ * @param {string} instructions
+ * @return {boolean}
+ */
+var isRobotBounded = function(instructions) {
+    let n = instructions.length;
+    let position = Array(2).fill(0);
+    let direction = "north";
+    for(let i = 0; i < n; i++) {
+        if(instructions[i] === "G") {
+            if(direction === "north") position[1]++;
+            else if(direction === "south") position[1]--;
+            else if(direction === "east") position[0]++;
+            else position[0]--;
+        }else if(instructions[i] === "L") {
+            if(direction === "north") direction = "west";
+            else if(direction === "south") direction = "east";
+            else if(direction === "east") direction = "north";
+            else if(direction === "west") direction = "south";
+        } else if(instructions[i] === 'R') {
+            if(direction === "north") direction = "east";
+            else if(direction === "south") direction = "west";
+            else if(direction === "east") direction = "south";
+            else if(direction === "west") direction = "north";
+        }
+    }
+    return (position[0] === 0 && position[1] === 0) || direction !== "north";
+};
