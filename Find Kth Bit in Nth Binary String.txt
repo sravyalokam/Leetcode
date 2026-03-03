@@ -1,0 +1,42 @@
+// PROBLEM OF THE DAY: Find Kth in Bth Binary String
+
+// PROBLEM LINK: https://leetcode.com/problems/find-kth-bit-in-nth-binary-string/
+
+// SOLUTION EXPLANATION:
+// 1. This problem builds a binary string recursively starting from S1 = "0".
+// 2. Each next string is formed as: previous string + "1" + reverse(invert(previous string)).
+// 3. The invert operation flips every bit (0 becomes 1, 1 becomes 0).
+// 4. The reverse operation reverses the inverted string before appending it.
+// 5. We keep constructing strings until we reach the nth string.
+// 6. Finally, we return the kth character.
+// SPACE COMPLEXITY: O(1)
+//
+// TIME COMPLEXITY: O(N)
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {character}
+ */
+var invert = function(s) {
+    let n = s.length;
+    let result = "";
+    for(let i = 0; i < n; i++) {
+        if(s[i] === "0") {
+            result += "1";
+        } else { 
+            result += "0";
+        }
+    }
+    return result;
+}
+var findKthBit = function(n, k) {
+    let s = [];
+    s[0] = "0";
+    for(let i = 1; i <= n/2; i++ ) {
+        let inverted_string = invert(s[i - 1]);
+        let reversedStr = inverted_string.split('').reverse().join('');
+        s[i] = s[i - 1] + "1" + reversedStr;
+    }
+
+    return s[n - 1][k-1];
+};
