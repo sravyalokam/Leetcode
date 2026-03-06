@@ -1,0 +1,58 @@
+class Solution {
+public:
+    void bfs(vector<vector<char>>& board, int sr, int sc, vector<vector<int>>& visited, int n, int m) {
+        queue<pair<int, int>> q;
+        vector<pair<int, int>> cells;
+
+        q.push({sr, sc});
+        visited[sr][sc] = 1;
+
+        bool check = false;
+
+        int dir[4][2] = {{-1,0},{1,0},{0,-1},{0,1}};
+
+        while(!q.empty()) {
+            int r = q.front().first;
+            int c = q.front().second;
+            q.pop();
+
+            cells.push_back({r, c});
+
+            if(r == 0 || c == 0 || r == n - 1 || c == m - 1) {
+                check = true;
+            }
+
+            for(int i = 0; i < 4; i++) {
+                int nr = r + dir[i][0];
+                int nc = c + dir[i][1];
+
+                if(nr >= 0 && nc >= 0 && nr < n && nc < m &&
+                   !visited[nr][nc] && board[nr][nc] == 'O') {
+                    visited[nr][nc] = 1;
+                    q.push({nr, nc});
+                }
+            }
+        }
+
+        if(!check) {
+            for(auto &cell : cells) {
+                board[cell.first][cell.second] = 'X';
+            }
+        }
+    }
+
+    void solve(vector<vector<char>>& board) {
+        int n = board.size();
+        int m = board[0].size();
+
+        vector<vector<int>> visited(n, vector<int>(m, 0));
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(board[i][j] == 'O' && !visited[i][j]) {
+                    bfs(board, i, j, visited, n, m);
+                }
+            }
+        }
+    }
+};
