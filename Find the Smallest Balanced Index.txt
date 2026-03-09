@@ -1,0 +1,42 @@
+// PROBLEM OF THE DAY: Find the Smallest Balanced Index
+
+// PROBLEM LINK: https://leetcode.com/problems/find-the-smallest-balanced-index/
+
+// SOLUTION EXPLANATION:
+// 1. We are given an array nums and need to find the smallest balanced index.
+//    An index i is balanced if the sum of elements strictly to the left of i is equal to the product of elements strictly to the right of i.
+// 2. I calculate the suffix product for every index.
+// 3. Since the product can grow very large, I cap it at totalSum + 1. Any value greater than totalSum can never match the prefix sum.
+// 4. Then I maintain a prefix sum while traversing the array.
+// 5. If prefixSum becomes equal to suffixProd[i], I return that index.
+
+// Time Complexity: O(N)
+// Space Complexity: O(N)
+
+class Solution {
+public:
+    int smallestBalancedIndex(vector<int>& nums) {
+        int n = nums.size();
+        vector<long long>suffixProd(n, 0);
+       
+        suffixProd[n - 1] = 1;
+        long long totalSum = 0;
+        for (int x : nums) totalSum += x;
+        for(int i = n - 2; i >= 0; i--) {
+            long long next = suffixProd[i + 1];
+            long long val = nums[i + 1];
+
+            if (next > totalSum || val > totalSum || next > totalSum / val) {
+                suffixProd[i] = totalSum + 1;  
+            } else {
+                suffixProd[i] = next * val;
+            }
+        }
+        long long prefixSum = 0;
+        for(int i = 0; i < n; i++) {
+           if(prefixSum == suffixProd[i]) return i;
+           prefixSum += nums[i];
+        }
+        return -1;
+    }
+};
