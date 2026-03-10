@@ -1,0 +1,33 @@
+// PROBLEM OF THE DAY: Count Number of Maximum Bitwise-OR Subsets
+
+// PROBLEM LINK: https://leetcode.com/problems/count-number-of-maximum-bitwise-or-subsets/
+
+// SOLUTION EXPLANATION:
+// 1. We are given an array nums and need to count how many subsets have the maximum possible bitwise OR value.
+// 2. I generate all possible subsets using bitmasking.
+// 3. For each subset, I calculate its bitwise OR value.
+// 4. I store the frequency of every OR value in a map.
+// 5. While traversing all subsets, I also keep track of the maximum OR value obtained.
+// 6. At the end, I return the count stored in the map for that maximum OR value.
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var countMaxOrSubsets = function(nums) {
+    let n = nums.length;
+    let max_xor = 0;
+    let no_of_subsets = 1 << n;
+    let map = new Map();
+    for(let i = 0; i < no_of_subsets; i++) {
+        let xor_val = 0;
+        for(let j = 0; j < n; j++) {
+            if(i & (1 << j)) {
+                xor_val |= nums[j];
+            }
+        }
+        
+        max_xor = Math.max(max_xor, xor_val);
+        map.set(xor_val, (map.get(xor_val) || 0) + 1);
+    }
+    return map.get(max_xor);
+};
