@@ -1,0 +1,71 @@
+// PROBLEM OF THE DAY: Valid Sudoku
+
+// PROBLEM LINK: https://leetcode.com/problems/valid-sudoku/
+
+// SOLUTION EXPLANATION:
+// 1. We are given a 9×9 Sudoku board. Our task is to check whether the board is valid according to Sudoku rules.
+// 2. A Sudoku board is valid if:
+//      - Each row contains digits 1–9 without repetition.
+//      - Each column contains digits 1–9 without repetition.
+//      - Each 3×3 subgrid contains digits 1–9 without repetition.
+// 3. We iterate through every cell of the board.
+// 4. If the cell contains '.', we skip it because it represents an empty cell.
+// 5. If the cell contains a number, we validate three conditions using the helper function `isValidNum()`:
+//        a. Check if the number already exists in the same row.
+//        b. Check if the number already exists in the same column.
+//        c. Check if the number already exists in the corresponding 3×3 box.
+// 6. To find the starting index of the 3×3 box, we use helper functions
+//    `getRowVal()` and `getColVal()`.
+// 7. If any duplicate is found in row, column, or box, return false.
+// 8. If the entire board is checked without violations, return true.
+
+// TIME COMPLEXITY: O(1)
+
+// SPACE COMPLEXITY: O(1)
+
+/**
+ * @param {character[][]} board
+ * @return {boolean}
+ */
+var getRowVal = function(row) {
+    if(row < 3) x = 0;
+    else if(row > 2 && row <= 5) x = 3;
+    else x = 6;
+
+    return x;
+}
+var getColVal = function(col) {
+    if(col < 3) y = 0;
+    else if(col > 2 && col <= 5) y = 3;
+    else  y = 6;
+
+    return y;
+}
+var isValidNum = function(row, col, board, row_size, col_size) {
+    for(let k = 0; k < col_size ; k++) {
+        if((k !== col && board[row][k] === board[row][col]) ||  board[row][k] <= 0 || board[row][k] > 9) return false;
+    }
+    for(let k = 0; k < row_size ; k++) {
+        if((k !== row && board[k][col] === board[row][col]) || board[k][col] <= 0 || board[k][col] > 9) return false;
+    }
+    let x = getRowVal(row);
+    let y = getColVal(col);
+    for(p = x; p < (x + 3); p++) {
+        for(let q = y; q < (y + 3); q++) {
+            if((p != row || q != col) && board[p][q] === board[row][col]) return false;
+        }
+    }
+    return true;
+}
+var isValidSudoku = function(board) {
+    let row_size = board.length;
+    let col_size = board[0].length;
+    for(let row = 0; row < row_size; row++) {
+        for(let col = 0; col < col_size; col++) {
+            if(board[row][col] !== '.'){
+                if(!isValidNum(row, col, board, row_size, col_size)) return false;
+            }
+        }
+    }
+    return true;
+};
