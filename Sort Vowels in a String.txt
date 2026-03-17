@@ -1,0 +1,29 @@
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var isVowel = function(c) {
+    return c === 'a' || c === 'e' || c === 'i' || c === 'o' || c === 'u' ||
+           c === 'A' || c === 'E' || c === 'I' || c === 'O' || c === 'U';
+};
+var sortVowels = function(s) {
+    let n = s.length;
+    let vowels = [];
+    for(let i = 0; i < n; i++) {
+        if(isVowel(s[i])) {
+            vowels.push(s[i]);
+        }
+    }
+    let sorted_vowels = vowels.sort();
+    let j = 0;
+    let result = '';
+    for(let i = 0; i < n; i++) {
+        if(!isVowel(s[i])) {
+            result += s[i];
+        } else {
+            result += sorted_vowels[j];
+            j++;
+        }
+    }
+    return result;
+};
