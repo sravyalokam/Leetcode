@@ -1,0 +1,22 @@
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var isPalindrome = function(num) {
+    let n = num.length;
+    let i = 0;
+    let j = n - 1;
+    while(i < j) {
+        if(num[i] != num[j]) return false;
+        i++;
+        j--;
+    }
+    return true;
+}
+var isStrictlyPalindromic = function(n) {
+    for(let i = 2; i <= n - 2; i++) {
+        let base = n.toString(i)
+        if(!isPalindrome(base)) return false;
+    }
+    return true;
+};
