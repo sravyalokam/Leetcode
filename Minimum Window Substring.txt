@@ -1,0 +1,68 @@
+// PROBLEM OF THE DAY: Minimum Window Substring
+
+// PROBLEM LINK: https://leetcode.com/problems/minimum-window-substring/description/
+
+// SOLUTION EXPLANATION:
+// 1. Create a frequency map called `need` to store how many times each character of `t` is required.
+// 2. Use another frequency map called `map` to store the characters currently present in the sliding window of `s`.
+// 3. Initialize two pointers:
+//      - `j` = left boundary of the window
+//      - `i` = right boundary of the window
+// 4. Expand the window by moving `i` forward and adding `s[i]` into `map`.
+// 5. After every expansion, check whether the current window contains all characters of `t`
+//    with the required frequency using the `check(map, need)` function.
+// 6. If the window is valid, try to shrink it from the left by moving `j` forward
+//    to find the smallest possible valid window.
+// 7. While shrinking, whenever the current window length is smaller than the previously recorded
+//    minimum length, update:
+//      - `min_length` = current smallest window length
+//      - `start_index` = starting index of that window
+//      - `end_index` = ending index of that window
+// 8. While shrinking, decrease the frequency of `s[j]` from `map` and move `j` forward.
+// 9. Continue this process until the right pointer `i` reaches the end of the string.
+// 10. If no valid window is found, return an empty string "".
+// 11. Otherwise, return the substring from `start_index` to `end_index` as the minimum window substring.
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {string}
+ */
+var check = function(map, need) {
+    for (let [ch, count] of need) {
+        if ((map.get(ch) || 0) < count) {
+            return false;
+        }
+    }
+    return true;
+};
+var minWindow = function(s, t) {
+    let min_length =  Infinity;
+    let start_index = 0;
+    let end_index = 0;
+    let n = s.length;
+    let m = t.length;
+    let i = 0;
+    let j = 0;
+    let map = new Map();
+    let need = new Map();
+    for (let ch of t) {
+        need.set(ch, (need.get(ch) || 0) + 1);
+    }
+    while(i < n) {
+        map.set(s[i], (map.get(s[i]) || 0) + 1);
+            
+        while(check(map, need)) {
+             if (i - j + 1 < min_length) {
+                min_length = i - j + 1;
+                start_index = j;
+                end_index = i;
+            }
+
+            map.set(s[j], map.get(s[j]) - 1);
+            j++;
+        }
+        i++;
+    }
+         
+    return min_length === Infinity ? "" : s.substring(start_index, end_index + 1);
+};
