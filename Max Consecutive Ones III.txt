@@ -1,0 +1,42 @@
+// PROBLEM OF THE DAY: Max Consecutive Ones III
+
+// PROBLEM LINK: https://leetcode.com/problems/max-consecutive-ones-iii/
+
+// SOLUTION EXPLANATION:
+// 1. We are given a binary array nums and an integer k.
+// 2. The goal is to find the maximum number of consecutive 1's in the array if we are allowed to flip at most k zeros.
+// 3. To solve this problem, I used the sliding window approach.
+// 4. I initialized two pointers, j and i, at the beginning of the array.
+// 5. For every window from j to i, I store the frequency of elements in a map.
+// 6. If the number of 0's in the current window becomes greater than k, then the window becomes invalid, so I shrink it from the left.
+// 7. While shrinking, I decrease the frequency of nums[j] in the map and move j forward.
+// 8. After making sure the window is valid, I update max_subarray_length with the maximum of its current value and the current window size.
+// 9. I continue this process until I reach the end of the array.
+// 10. Finally, I return max_subarray_length.
+
+// Time Complexity: O(N)
+// Space Complexity: O(1)
+
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var longestOnes = function(nums, k) {
+    let n = nums.length;
+    let i = 0;
+    let j = 0;
+    let map = new Map();
+    let max_subarray_length = 0;
+    while(i < n) {
+        map.set(nums[i], (map.get(nums[i]) || 0) + 1);
+        
+        while(map.get(0) > k) {
+            map.set(nums[j], map.get(nums[j]) - 1);
+            j++;
+        }
+        max_subarray_length = Math.max(max_subarray_length, i - j + 1);
+        i++;
+    }
+    return max_subarray_length;
+};
