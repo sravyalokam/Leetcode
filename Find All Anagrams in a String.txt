@@ -1,0 +1,60 @@
+// PROBLEM OF THE DAY: Find All Anagrams in a String
+
+// PROBLEM LINK: https://leetcode.com/problems/find-all-anagrams-in-a-string/
+
+// SOLUTION EXPLANATION:
+// 1. We are given two strings, s and p.
+// 2. The goal is to find all starting indices in s where the substring is an anagram of p.
+// 3. An anagram means both strings contain the same characters with the same frequencies, only the order can be different.
+// 4. To solve this problem, I used the sliding window technique along with frequency maps.
+// 5. First, I stored the frequency of all characters of p inside a map called need.
+// 6. Then I started traversing string s using two pointers, j and i, to maintain a window.
+// 7. For every character s[i], I add it into the current window frequency map.
+// 8. If the window size becomes greater than p.length, I shrink the window from the left by reducing the frequency of s[j] and moving j forward.
+// 9. Whenever the window size becomes exactly equal to p.length, I compare the current window map with the need map.
+// 10. The check function verifies whether every character in p exists in the current window with at least the required frequency.
+// 11. If the condition is true, then the current window is an anagram of p, so I store the starting index j in the result array.
+// 12. I continue this process until I reach the end of s.
+// 13. Finally, I return the result array containing all starting indices of anagrams.
+
+// Time Complexity: O(N)
+// Space Complexity: O(1)
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {number[]}
+ */
+var check = function(map, need) {
+    for (let [ch, count] of need) {
+        if ((map.get(ch) || 0) < count) {
+            return false;
+        }
+    }
+    return true;
+}
+var findAnagrams = function(s, p) {
+    let n = s.length;
+    let m = p.length;
+    let i = 0;
+    let j = 0;
+    let result = [];
+    let need = new Map();
+    let map = new Map();
+    for(let i = 0; i < m; i++) {
+        need.set(p[i], (need.get(p[i]) || 0) + 1);
+    }
+    while(i < n) {
+        map.set(s[i], (map.get(s[i]) || 0) + 1);
+        while((i - j + 1) > m) {
+            map.set(s[j], map.get(s[j]) - 1);
+            j++;
+        }
+        if((i - j + 1) === m) {
+            if(check(map, need)){
+                result.push(j);
+            }
+        } 
+        i++;
+    }
+    return result;
+};
