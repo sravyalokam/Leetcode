@@ -1,0 +1,47 @@
+// PROBLEM OF THE DAY: String Compression
+
+// PROBLEM LINK: https://leetcode.com/problems/string-compression/
+
+// SOLUTION EXPLANATION:
+// 1. We are given an array of characters chars.
+// 2. The goal is to compress the array such that consecutive repeating characters are replaced with the character followed by its count.
+// 3. If a character appears only once, we keep it as it is without adding any count.
+// 4. The compression must be done in-place, meaning we modify the original array without using extra space.
+// 5. To solve this problem, I used the two-pointer technique.
+// 6. I initialized two pointers: i to traverse the array and j to store the compressed result.
+// 7. For each position i, I pick the current character and count how many times it repeats consecutively.
+// 8. I move pointer i forward while the characters are the same and keep incrementing the count.
+// 9. After counting, I store the character at index j and increment j.
+// 10. If the count is greater than 1, I convert the count into a string.
+// 11. Then I store each digit of the count into the array using chars[j++] to handle multi-digit counts.
+// 12. I repeat this process until I reach the end of the array.
+// 13. Finally, I return j, which represents the length of the compressed array.
+
+// Time Complexity: O(N)
+// Space Complexity: O(1)
+/**
+ * @param {character[]} chars
+ * @return {number}
+ */
+var compress = function(chars) {
+    let n = chars.length;
+    let result = '';
+    let j = 0;
+    let i = 0;
+    while(i < n) {
+        let ch = chars[i];
+        let count = 0;
+        while(i < n && chars[i] === ch) {
+            count ++;
+            i++;
+        }
+        chars[j++] = ch;
+        if(count > 1) {
+            let str = count.toString();
+            for (let c of str) {
+                chars[j++] = c;
+            }
+        }
+    }
+    return j;
+};
