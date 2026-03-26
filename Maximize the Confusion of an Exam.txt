@@ -1,0 +1,43 @@
+// PROBLEM OF THE DAY: Maximize the Confusion of an Exam
+
+// PROBLEM LINK: https://leetcode.com/problems/maximize-the-confusion-of-an-exam/
+
+// SOLUTION EXPLANATION:
+// 1. We are given a string answerKey consisting of 'T' and 'F' representing answers.
+// 2. We are also given an integer k, which represents the maximum number of changes allowed.
+// 3. The goal is to find the maximum number of consecutive identical answers (either all 'T' or all 'F') after performing at most k changes.
+// 4. We can change up to k characters in the string to make a longer uniform substring.
+// 5. To solve this problem, I used the sliding window technique along with a frequency map.
+// 6. I initialized two pointers: i to expand the window and j to shrink the window when needed.
+// 7. I also used a map to keep track of the frequency of 'T' and 'F' in the current window.
+// 8. As I iterate through the string, I add the current character answerKey[i] to the map.
+// 9. If both the count of 'T' and 'F' in the window exceed k, I shrink the window from the left by decreasing the count of answerKey[j] and moving j forward.
+// 10. At each step, I calculate the current valid window size (i - j + 1) and update the maximum length.
+// 11. This ensures that at any point, the window represents a valid substring where we can make at most k changes.
+// 12. Finally, I return max_consecutive_length, which gives the maximum possible consecutive identical answers.
+
+// Time Complexity: O(N)
+// Space Complexity: O(1)
+/**
+ * @param {string} answerKey
+ * @param {number} k
+ * @return {number}
+ */
+var maxConsecutiveAnswers = function(answerKey, k) {
+    let n = answerKey.length;
+    let i = 0;
+    let j = 0;
+    let max_consecutive_length = 0;
+    let map = new Map();
+    while(i < n) {
+        map.set(answerKey[i], (map.get(answerKey[i]) || 0) + 1);
+
+        while(map.get('T') > k && map.get('F') > k) {
+            map.set(answerKey[j], map.get(answerKey[j]) - 1);
+            j++;
+        }
+        max_consecutive_length = Math.max(max_consecutive_length, i - j + 1);
+        i++;
+    }
+    return max_consecutive_length;
+};
