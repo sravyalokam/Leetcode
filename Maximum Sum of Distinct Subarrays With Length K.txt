@@ -1,0 +1,64 @@
+// PROBLEM OF THE DAY: Maximum Sum of Distinct Subarrays With Length K
+
+// PROBLEM LINK: https://leetcode.com/problems/maximum-sum-of-distinct-subarrays-with-length-k/
+
+// SOLUTION EXPLANATION:
+// 1. We are given an integer array nums and an integer k.
+// 2. Our task is to find the maximum sum of any subarray of size k such that all elements in that subarray are distinct.
+// 3. To solve this problem efficiently, we use the sliding window technique along with a HashMap.
+// 4. We maintain two pointers: j(start of the window) & i(end of the window)
+// 5. We also maintain:
+//      - sum to store the sum of the current window
+//      - map to store the frequency of elements inside the current window
+//      - max_sum to store the maximum valid window sum found so far
+// 6. As we move i forward, we include nums[i] in the current window:
+//      - add nums[i] to sum
+//      - increase its count in the map
+// 7. If the window size becomes greater than k, we shrink it from the left:
+//      - subtract nums[j] from sum
+//      - decrease its count in the map
+//      - if the count becomes 0, remove it from the map
+//      - move j forward
+// 8. Whenever the window size becomes exactly k, we check whether all elements are distinct or not.
+// 9. If all elements are distinct, then the map size will be equal to k, because each element appears exactly once in the window.
+// 10. In that case, we update max_sum with the maximum of current max_sum and sum.
+// 11. After processing all possible windows, we return max_sum.
+// 12. If no valid subarray of size k exists, max_sum remains 0, so we return 0.
+
+// SPACE COMPLEXITY: O(K)
+
+// TIME COMPLEXITY: O(N)
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var maximumSubarraySum = function(nums, k) {
+    let n = nums.length;
+    let i = 0;
+    let j = 0;
+    let max_length = 0;
+    let max_sum = 0;
+    let sum = 0;
+    let map = new Map();
+    while(i < n) {
+        map.set(nums[i], (map.get(nums[i]) || 0) + 1);
+        sum += nums[i];
+
+        while((i - j + 1) > k)
+        {
+            map.set(nums[j], map.get(nums[j]) - 1);
+            if (map.get(nums[j]) === 0) {
+                map.delete(nums[j]);
+            }
+            sum -= nums[j];
+            j++;
+        }
+
+        if((i - j + 1) === k & map.size === k) {
+            max_sum = Math.max(max_sum, sum);
+        }
+        i++;
+    }
+    return max_sum;
+};
