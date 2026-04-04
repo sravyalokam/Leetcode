@@ -1,0 +1,52 @@
+// PROBLEM OF THE DAY: Number of Islands
+
+// PROBLEM LINK: https://leetcode.com/problems/number-of-islands/
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var bfs = function(row, col, grid, vis) {
+    let n = grid.length;
+    let m = grid[0].length;
+
+    vis[row][col] = true;
+    let queue = [];
+    queue.push({row, col});
+
+    while(queue.length > 0) {
+        let node = queue.shift(); 
+
+        let r = node.row;
+        let c = node.col;
+
+        let delrow = [-1, 0, 1, 0];
+        let delcol = [0, 1, 0, -1];
+
+            for(let i = 0; i < 4; i++) {
+                let nrow = r + delrow[i];
+                let ncol = c + delcol[i];
+                if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && grid[nrow][ncol] === '1' && !vis[nrow][ncol]) {
+                    vis[nrow][ncol] = true;
+                    queue.push({ row: nrow, col: ncol });
+                }
+            }
+    }
+
+}
+var numIslands = function(grid) {
+    let n = grid.length;
+    let m = grid[0].length;
+
+    let vis = Array.from({ length: n }, () => Array(m).fill(false));
+
+    let count = 0;
+    for(let i = 0; i < n; i++) {
+        for(let j = 0; j < m; j++) {
+            if(grid[i][j] === '1' && !vis[i][j]) {
+                bfs(i, j, grid, vis);
+                count ++;
+            }
+        }
+    }
+    return count;
+};
