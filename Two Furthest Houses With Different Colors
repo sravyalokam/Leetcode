@@ -1,0 +1,16 @@
+/**
+ * @param {number[]} colors
+ * @return {number}
+ */
+var maxDistance = function(colors) {
+    let max_distance = 0;
+    let n = colors.length;
+    for(let i = 0; i < n - 1; i++) {
+        for(let j = i + 1; j < n; j++) {
+            if(colors[i] != colors[j]) {
+                max_distance = Math.max(max_distance, (j - i));
+            }
+        }
+    }
+    return max_distance;
+};
