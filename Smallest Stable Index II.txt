@@ -1,0 +1,27 @@
+// Time Complexity: O(N)
+// Space Complexity: 0(N)
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var firstStableIndex = function(nums, k) {
+    let res = Number.MAX_SAFE_INTEGER;
+    let n = nums.length;
+    let result = new Array(n - 1).fill(Infinity);
+    let max_elem = -1;
+
+    let min_elem = new Array(n).fill(Infinity);
+    min_elem[n - 1] = nums[n - 1];
+    for(let j = n - 1; j >= 0; j--) {
+        if(j !== n - 1) min_elem[j] = Math.min(min_elem[j + 1], nums[j]);
+    }
+
+    for(let i = 0; i < n; i++) {
+        if(nums[i] > max_elem) max_elem = nums[i]; 
+        result[i] = max_elem - min_elem[i];
+        if(i < res && result[i] <= k) res = i;
+    }
+
+    return (res === Number.MAX_SAFE_INTEGER) ? -1 : res;
+};
