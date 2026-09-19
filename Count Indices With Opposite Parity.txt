@@ -1,0 +1,29 @@
+var countOppositeParity = function(nums) {
+    let n = nums.length;
+    let totalEven = 0;
+    let totalOdd = 0;
+
+    for (let i = 0; i < n; i++) {
+        if (nums[i] % 2 === 0) {
+            totalEven++;
+        } else {
+            totalOdd++;
+        }
+    }
+
+    let result = [];
+    let seenEven = 0;
+    let seenOdd = 0;
+
+    for (let i = 0; i < n; i++) {
+        if (nums[i] % 2 === 0) {
+            seenEven++;
+            result[i] = totalOdd - seenOdd;
+        } else {
+            seenOdd++;
+            result[i] = totalEven - seenEven;
+        }
+    }
+
+    return result;
+};
