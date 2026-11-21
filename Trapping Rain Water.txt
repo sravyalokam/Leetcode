@@ -1,0 +1,23 @@
+// Time Complexity: O(N)
+// Space Complexity: O(N)
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        vector<int> NGER(n);
+        NGER[n - 1] = height[n - 1];
+        for(int i = n - 1; i > 0; i--) {
+           if(i != n - 1) NGER[i] = max(NGER[i + 1], height[i]);
+        }
+
+        int NGEL = INT_MIN;
+
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            NGEL = max(NGEL, height[i]);
+            count += (max(0, min(NGEL, NGER[i]) - height[i]));
+        }
+        return count;
+    }
+};
